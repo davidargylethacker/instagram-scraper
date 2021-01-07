@@ -12,7 +12,7 @@ from instagram_scraper.constants import RETRY_DELAY, CONNECT_TIMEOUT, MAX_RETRY_
 
 class ProfileMetadataScraper(object):
 
-    def __init__(self, username_to_scrape, login_user, login_password):
+    def __init__(self, username_to_scrape, login_user=None, login_password=None):
         self.username = username_to_scrape
         self.login_user = login_user
         self.login_pass = login_password
@@ -20,7 +20,10 @@ class ProfileMetadataScraper(object):
 
     def scrape(self):
         print("hello world")
-        self.authentication.user_login(self.login_user, self.login_pass)
+        if self.login_user and self.login_pass:
+            self.authentication.user_login(self.login_user, self.login_pass)
+        else:
+            self.authentication.guest_login()
         profile_info = self._get_profile_info()
         print(profile_info)
         self.authentication.logout()
